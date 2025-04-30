@@ -37,6 +37,10 @@ button {
   box-shadow: -1px 4px 9px 3px rgba(0, 0, 0, 0.25);
 }
 
+input {
+  display: none;
+}
+
 button:active {
   transform: scale(0.98);
 }
