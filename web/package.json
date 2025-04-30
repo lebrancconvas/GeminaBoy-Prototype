@@ -1,10 +1,13 @@
 {
-  "name": "bun-react-template",
+  "name": "@lebranc-gb/web",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "main": "src/index.tsx",
   "module": "src/index.tsx",
+  "workspaces": [
+    "../emulator"
+  ],
   "scripts": {
     "dev": "bun --hot src/index.tsx",
     "build": "bun build ./src/index.html --outdir=dist --sourcemap --target=browser --minify --define:process.env.NODE_ENV='\"production\"' --env='BUN_PUBLIC_*'",
@@ -12,7 +15,8 @@
   },
   "dependencies": {
     "react": "^19",
-    "react-dom": "^19"
+    "react-dom": "^19",
+    "@lebranc-gb/emulator": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^19",
