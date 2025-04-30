@@ -1,24 +1,22 @@
-import "./index.css";
-import { APITester } from "./APITester";
-
-import logo from "./logo.svg";
-import reactLogo from "./react.svg";
+import './index.css';
 
 export function App() {
   return (
-    <div className="app">
-      <div className="logo-container">
-        <img src={logo} alt="Bun Logo" className="logo bun-logo" />
-        <img src={reactLogo} alt="React Logo" className="logo react-logo" />
-      </div>
+    <>
+      <header>
+        <h1>Lebranc-GB</h1>
+      </header>
+      <section className="display">
 
-      <h1>Bun + React</h1>
-      <p>
-        Edit <code>src/App.tsx</code> and save to test HMR
-      </p>
-      <APITester />
-    </div>
-  );
-}
+      </section>
+      <section className="upload">
+        <button>Upload GB ROM File</button>
+      </section>
+      <footer>
+        <p>Made by <a href="https://github.com/lebrancconvas" target="_blank">Poom Yimyuean (@lebrancconvas)</a></p>
+      </footer>
+    </>
+  )
+};
 
-export default App;
+
