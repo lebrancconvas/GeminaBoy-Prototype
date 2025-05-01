@@ -1,1 +1,5 @@
-console.log("Hello via Bun!");
+function GameBoyEmulator() {
+  console.log("GameBoy Emulator Initialized");
+};
+
+export default GameBoyEmulator;
