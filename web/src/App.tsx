@@ -32,7 +32,7 @@ export function App() {
         <h1>Lebranc-GB</h1>
       </header>
       <section className="display">
-
+        <canvas>Display Canvas</canvas>
       </section>
       <section className="upload">
         <button onClick={handleROMFileUpload}>Upload GB ROM File</button>
