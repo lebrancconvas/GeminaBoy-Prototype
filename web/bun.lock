@@ -4,7 +4,7 @@
     "": {
       "name": "bun-react-template",
       "dependencies": {
-        "@lebranc-gb/emulator": "workspace:*",
+        "@lebranc-gb/emulator": "file:../emulator",
         "react": "^19",
         "react-dom": "^19",
       },
@@ -14,18 +14,9 @@
         "@types/react-dom": "^19",
       },
     },
-    "../emulator": {
-      "name": "@lebranc-gb/emulator",
-      "devDependencies": {
-        "@types/bun": "latest",
-      },
-      "peerDependencies": {
-        "typescript": "^5",
-      },
-    },
   },
   "packages": {
-    "@lebranc-gb/emulator": ["@lebranc-gb/emulator@workspace:../emulator"],
+    "@lebranc-gb/emulator": ["@lebranc-gb/emulator@file:../emulator", { "devDependencies": { "@types/bun": "latest" }, "peerDependencies": { "typescript": "^5" } }],
 
     "@types/bun": ["@types/bun@1.2.11", "", { "dependencies": { "bun-types": "1.2.11" } }, "sha512-ZLbbI91EmmGwlWTRWuV6J19IUiUC5YQ3TCEuSHI3usIP75kuoA8/0PVF+LTrbEnVc8JIhpElWOxv1ocI1fJBbw=="],
 
