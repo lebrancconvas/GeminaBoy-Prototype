@@ -1,5 +1,8 @@
 import React, { useRef } from 'react';
+import { ALLOW_FILE_EXTENSIONS } from './constants';
 import './index.css';
+
+const allowFileExtension = ALLOW_FILE_EXTENSIONS.map(ext => `.${ext}`).join(',');
 
 export function App() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -16,9 +19,7 @@ export function App() {
       try {
         const fileBuffer = await file.arrayBuffer();
         const fileView = new Uint8Array(fileBuffer);
-        const title = new TextDecoder().decode(fileView.slice(0x134, 0x143)).replace(/\0/, '');
-        console.log(fileView);
-        console.log(title);
+        console.log('File Data: ', fileView);
       } catch(error) {
         console.error('Error reading file: ', error);
       }
@@ -35,7 +36,7 @@ export function App() {
       </section>
       <section className="upload">
         <button onClick={handleROMFileUpload}>Upload GB ROM File</button>
-        <input type="file" accept=".gb,.gbc" ref={fileInputRef} onChange={handleFileChange} />
+        <input type="file" accept={allowFileExtension} ref={fileInputRef} onChange={handleFileChange} />
       </section>
       <footer>
         <p>Made by <a href="https://github.com/lebrancconvas" target="_blank">Poom Yimyuean (@lebrancconvas)</a></p>
