@@ -35,7 +35,7 @@ export function App() {
         <canvas>Display Canvas</canvas>
       </section>
       <section className="upload">
-        <button onClick={handleROMFileUpload}>Upload GB ROM File</button>
+        <button onClick={handleROMFileUpload}>Open ROM File</button>
         <input type="file" accept={allowFileExtension} ref={fileInputRef} onChange={handleFileChange} />
       </section>
       <footer>
