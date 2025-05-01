@@ -8,7 +8,7 @@ Poom Yimyuean (@lebrancconvas)
 
 Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript + Bun.
 
-### Packages
+## Packages
 
 - Web (web): Web Application side of the project.
 - Emulator (emulator): Core (GameBoy) Emulator that will be used to run behind the application.
