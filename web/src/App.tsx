@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 import { ALLOW_FILE_EXTENSIONS } from './constants';
 import './index.css';
 
+import GameBoyEmulator from '@lebranc-gb/emulator';
+
 const allowFileExtension = ALLOW_FILE_EXTENSIONS.map(ext => `.${ext}`).join(',');
 
 export function App() {
