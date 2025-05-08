@@ -121,3 +121,8 @@ The first few bytes (usually 0x00, 0xC3, 0x50, 0x01) contain:
 
 - 16-bit checksum across the entire ROM
 - Not verified by the Game Boy
+
+### ROM Banks (0x0150 ~ ...)
+
+- Bank 0: Present at 0x0000 ~ 0x3FFF (First 16KB)
+- Bank 1+: Switchable Banks at 0x4000 ~ 0x7FFF (Second 16KB)
