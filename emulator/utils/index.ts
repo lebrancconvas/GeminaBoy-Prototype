@@ -1,3 +1,3 @@
-export * from './cpu';
-export * from './ppu';
-export * from './memory';
+export * from './cpu/cpu';
+export * from './ppu/ppu';
+export * from './memory/memory';
