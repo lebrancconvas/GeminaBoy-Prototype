@@ -20,8 +20,7 @@ export function App() {
 
       try {
         const fileBuffer = await file.arrayBuffer();
-        const fileView = new Uint8Array(fileBuffer);
-        console.log('File Data: ', fileView);
+        GameBoyEmulator.run(fileBuffer);
       } catch(error) {
         console.error('Error reading file: ', error);
       }
