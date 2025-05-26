@@ -1,13 +1,21 @@
 import { CartridgeType } from "./cartridge.enum";
 import { KB } from "~/helpers/byte";
 
-class Cartridge {
+export class Cartridge {
   romBuffer: ArrayBuffer;
   romData: DataView;
 
   constructor(romBuffer: ArrayBuffer) {
     this.romBuffer = romBuffer;
     this.romData = new DataView(romBuffer);
+  }
+
+
+  get cartridgeType(): CartridgeType {
+    const cartridgeTypeOffset = 0x147;
+    const cartridgeTypeValue = this.romData.getUint8(cartridgeTypeOffset) as CartridgeType;
+
+    return cartridgeTypeValue;
   }
 
   get romSize(): number {
