@@ -30,15 +30,20 @@ button {
   border-radius: 10px;
   font-size: 16px;
   text-align: center;
-  background-color: rgb(254, 217, 104);
+  background-color: #13EC21;
   cursor: pointer;
   padding: 20px 10px;
   margin: 0 auto;
-  box-shadow: -1px 4px 9px 3px rgba(0, 0, 0, 0.25);
+  box-shadow: -1px 5px 9px 3px rgba(0, 0, 0, 0.25);
 }
 
 input {
   display: none;
+}
+
+button:hover {
+  background-color: #42F05D;
+  transition: background-color 0.3s ease;
 }
 
 button:active {
