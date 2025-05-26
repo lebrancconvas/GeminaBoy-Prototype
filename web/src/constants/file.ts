@@ -1,4 +1,5 @@
 export const ALLOW_FILE_EXTENSIONS = [
   'gb',
-  'gbc'
+  'gbc',
+  'zip'
 ];
