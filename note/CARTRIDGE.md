@@ -27,13 +27,13 @@ The first few bytes (usually 0x00, 0xC3, 0x50, 0x01) contain:
 
 ### GBC Flag (0x143)
 
-- 0x80: Game supports Game Boy Color features but works on original Game Boy
-- 0xC0: Game exclusively for Game Boy Color
+- 0x80: Supporting CGB (Game Boy Color) enhancements, but is backwards compatible with **monochrome Game Boys**
+- 0xC0: Working on CGB (Game Boy Color) only (The hardware ignores bit 6th, so it functions the same as 0x80)
 - 0x00: Original Game Boy game
 
 ### SGB Flag (0x146)
 
-- 0x00: No Super Game Boy features
+- 0x00 (or other?): No Super Game Boy features
 - 0x03: Game supports Super Game Boy features
 
 ### Cartridge Type (0x147)
@@ -66,24 +66,29 @@ The first few bytes (usually 0x00, 0xC3, 0x50, 0x01) contain:
 
 ### ROM Size (0x148)
 
-- 0x00: 32 KByte (no ROM banking)
-- 0x01: 64 KByte (4 banks)
-- 0x02: 128 KByte (8 banks)
-- 0x03: 256 KByte (16 banks)
-- 0x04: 512 KByte (32 banks)
-- 0x05: 1 MByte (64 banks)
-- 0x06: 2 MByte (128 banks)
-- 0x07: 4 MByte (256 banks)
-- 0x08: 8 MByte (512 banks)
+Calculate: 32 KB * (1 << $(value))
+
+- 0x00: 32 KB (no ROM banking, Just use 2)
+- 0x01: 64 KB (4 banks)
+- 0x02: 128 KB (8 banks)
+- 0x03: 256 KB (16 banks)
+- 0x04: 512 KB (32 banks)
+- 0x05: 1 MB (64 banks)
+- 0x06: 2 MB (128 banks)
+- 0x07: 4 MB (256 banks)
+- 0x08: 8 MB (512 banks)
+- [Not Sure] 0x52
 
 ### RAM Size (0x149)
 
+Static RAM (SRAM) Size.
+
 - 0x00: None
-- 0x01: 2 KBytes
-- 0x02: 8 KBytes
-- 0x03: 32 KBytes (4 banks of 8 KBytes)
-- 0x04: 128 KBytes (16 banks of 8 KBytes)
-- 0x05: 64 KBytes (8 banks of 8 KBytes)
+- 0x01: -
+- 0x02: 8 KB (1 Bank)
+- 0x03: 32 KB (4 Banks of 8 KB each)
+- 0x04: 128 KB (16 Banks of 8 KB each)
+- 0x05: 64 KB (8 Banks of 8 KB each)
 
 ### Destination Code (0x14A)
 
