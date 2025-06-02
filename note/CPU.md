@@ -9,3 +9,10 @@
 - Runs at "~4.19 MHz" in GameBoy (DMG).
   - Runs at "~8.38 MHz" in GameBoy Color (CGB).
 - Only Intel 8080's Set of Registers are implemented. (7 General-Purpose Registers)
+
+## Basic CPU Knowledge
+
+### Fetch-Decode-Execute
+
+- **Fetch**
+  - Read The instruction from the memory.
