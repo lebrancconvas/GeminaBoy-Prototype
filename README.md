@@ -27,6 +27,10 @@ Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript +
 - [[EN: Text] Pan Docs (gbdev.io)](https://gbdev.io/pandocs/)
 - [[EN: Text] Game Boy CPU (SM83) Instruction Set (gbdev.io)](https://gbdev.io/gb-opcodes/optables/)
 
+### Blog
+
+- [[EN: Text] Game Boy Emulator Development Guide (hacktix.github.io)](https://hacktix.github.io/GBEDG)
+
 ### Reference Projects
 
 - [[Github] roblouie/gameboy-emulator: Game Boy Emulator written by TypeScript.](https://github.com/roblouie/gameboy-emulator)
