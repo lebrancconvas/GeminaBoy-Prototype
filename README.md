@@ -30,6 +30,7 @@ Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript +
 ### Blog
 
 - [[EN: Text] Game Boy Emulator Development Guide (hacktix.github.io)](https://hacktix.github.io/GBEDG)
+- [[EN: Text] Game Boy Emulator in JavaScript (Imran Nazar)](https://imrannazar.com/series/gameboy-emulation-in-javascript)
 
 ### Reference Projects
 
