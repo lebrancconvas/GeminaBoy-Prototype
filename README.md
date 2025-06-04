@@ -31,6 +31,7 @@ Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript +
 
 - [[EN: Text] Game Boy Emulator Development Guide (hacktix.github.io)](https://hacktix.github.io/GBEDG)
 - [[EN: Text] Writing axle's Game Boy Emulator (Phillip Tennen)](https://axleos.com/writing-axles-gameboy-emulator/)
+- [[EN: Text] The Game Boy's APU (jsgroth)](https://jsgroth.dev/blog/posts/gb-rewrite-apu)
 - [[EN: Text] Game Boy Emulator in JavaScript (Imran Nazar)](https://imrannazar.com/series/gameboy-emulation-in-javascript)
 
 ### Research
