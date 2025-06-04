@@ -32,6 +32,10 @@ Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript +
 - [[EN: Text] Game Boy Emulator Development Guide (hacktix.github.io)](https://hacktix.github.io/GBEDG)
 - [[EN: Text] Game Boy Emulator in JavaScript (Imran Nazar)](https://imrannazar.com/series/gameboy-emulation-in-javascript)
 
+### Research
+
+- [[EN: Text] Conware: Automated Modeling of Hardware Peripherals (pur3labs.github.io)](https://purs3lab.github.io/files/conware.pdf)
+
 ### Reference Projects
 
 - [[Github] roblouie/gameboy-emulator: Game Boy Emulator written by TypeScript.](https://github.com/roblouie/gameboy-emulator)
