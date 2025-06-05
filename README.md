@@ -61,3 +61,13 @@ Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript +
     - [[Github] smparsons/retroboy: A Game Boy emulator written in Rust.](https://github.com/smparsons/retroboy)
   - **[OCaml](https://en.wikipedia.org/wiki/OCaml)**
     - [[Github] linoscope/CAMLBOY: A Game Boy emulator written in OCaml that runs in your browser.](https://github.com/linoscope/CAMLBOY)
+
+### AI-based information
+
+I'm using AI tools to help me for searching on some information to make me clearly understand and have resources
+to search more for the project references.
+
+But It's an AI-based so I recommended to recheck and verify the information by yourself to make sure for
+the correction of the information.
+
+- [[EN: Text] Game Boy Emulator using TypeScript Research Report. (Google Gemini 2.5 Pro's Deep Research)](https://github.com/lebrancconvas/lebranc-gb/blob/master/note/research/Lebranc_GB_Research_Gemini_2_5_pro.pdf)
