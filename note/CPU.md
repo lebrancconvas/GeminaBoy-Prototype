@@ -16,3 +16,8 @@
 
 - **Fetch**
   - Read The instruction from the memory.
+  - The Instruction is in bytes form that tell you what's it doing.
+- **Decode**
+  - Decoding the byte that you've just fetched and translate it what's it doing.
+- **Execute**
+  - Doing what the instruction tells the processor to work on.
