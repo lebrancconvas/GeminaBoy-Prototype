@@ -10,8 +10,8 @@ Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript +
 
 ## Packages
 
-- Web (web): Web Application side of the project.
-- Emulator (emulator): Core (GameBoy) Emulator that will be used to run behind the application.
+- [Web (web)](https://github.com/lebrancconvas/lebranc-gb/tree/master/web): Web Application side of the project.
+- [Emulator (emulator)](https://github.com/lebrancconvas/lebranc-gb/tree/master/emulator): Core (GameBoy) Emulator that will be used to run behind the application.
 
 ## References
 
