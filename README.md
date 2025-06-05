@@ -46,10 +46,15 @@ Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript +
 
 ### Research
 
+- [[EN: Text] Game Boy Presentation (Columbia University)](https://www.cs.columbia.edu/~sedwards/classes/2019/4840-spring/reports/GameBoy-presentation.pdf)
 - [[EN: Text] Study of the technique for emulation programming (Victor Moya del Barrio)](http://www.codeslinger.co.uk/files/emu.pdf)
 - [[EN: Text] Conware: Automated Modeling of Hardware Peripherals (pur3labs.github.io)](https://purs3lab.github.io/files/conware.pdf)
 
 ### Reference Projects
 
-- [[Github] roblouie/gameboy-emulator: Game Boy Emulator written by TypeScript.](https://github.com/roblouie/gameboy-emulator)
-- [[Github] jacoblister/emuboy: A Nintendo Game Boy Emulator in TypeScript.](https://github.com/jacoblister/emuboy)
+- **JavaScript / TypeScript-based projects.**
+  - [[Github] roblouie/gameboy-emulator: Game Boy Emulator written by TypeScript.](https://github.com/roblouie/gameboy-emulator)
+  - [[Github] jacoblister/emuboy: A Nintendo Game Boy Emulator in TypeScript.](https://github.com/jacoblister/emuboy)
+- Other Programming Language-based projects.
+  - **Rust**
+    - [[Github] smparsons/retroboy: A Game Boy emulator written in Rust.](https://github.com/smparsons/retroboy)
