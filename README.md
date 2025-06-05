@@ -39,6 +39,7 @@ Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript +
   - [[EN: Text] The Game Boy's APU (jsgroth)](https://jsgroth.dev/blog/posts/gb-rewrite-apu)
   - [[EN: Text] Game Boy Color (jsgroth)](https://jsgroth.dev/blog/posts/game-boy-color)
   - [[EN: Text] Game Boy Emulator in JavaScript (Imran Nazar)](https://imrannazar.com/series/gameboy-emulation-in-javascript)
+  - [[EN: Text] Writing a Game Boy Emulator in OCaml (The Linoscope Machine)](https://linoscope.github.io/writing-a-game-boy-emulator-in-ocaml)
   - [[EN: Text] How to homebrew a Game Boy game (Adafruit Industries on Digikey)](https://www.digikey.com/en/maker/projects/how-to-homebrew-game-boy-games/508de*fd7091c4a2eb912647109097284)
 - *Other topics related.*
   - [[EN: Text] Creating a Game with JavaScript (gablaxian)](https://gablaxian.com/articles/creating-a-game-with-javascript/introduction)
@@ -52,9 +53,11 @@ Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript +
 
 ### Reference Projects
 
-- **JavaScript / TypeScript-based projects.**
+- **[JavaScript](https://en.wikipedia.org/wiki/JavaScript) / [TypeScript](https://en.wikipedia.org/wiki/TypeScript)-based projects.**
   - [[Github] roblouie/gameboy-emulator: Game Boy Emulator written by TypeScript.](https://github.com/roblouie/gameboy-emulator)
   - [[Github] jacoblister/emuboy: A Nintendo Game Boy Emulator in TypeScript.](https://github.com/jacoblister/emuboy)
 - Other Programming Language-based projects.
-  - **Rust**
+  - **[Rust](https://en.wikipedia.org/wiki/Rust_(programming_language))**
     - [[Github] smparsons/retroboy: A Game Boy emulator written in Rust.](https://github.com/smparsons/retroboy)
+  - **[OCaml](https://en.wikipedia.org/wiki/OCaml)**
+    - [[Github] linoscope/CAMLBOY: A Game Boy emulator written in OCaml that runs in your browser.](https://github.com/linoscope/CAMLBOY)
