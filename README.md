@@ -26,6 +26,7 @@ Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript +
 
 - [[EN: Text] Game Boy / Game Boy Color Architecture (Rodrigo Copetti)](https://www.copetti.org/writings/consoles/game-boy/)
 - [[EN: Text] Pan Docs (gbdev.io)](https://gbdev.io/pandocs/)
+- [[EN: Text] Game Boy: Complete Technical Reference (gekkio)](https://gekkio.fi/files/gb-docs/gbctr.pdf)
 - [[EN: Text] Game Boy CPU Manual (Pan of Anthrox)](http://www.codeslinger.co.uk/pages/projects/gameboy/files/GB.pdf)
 - [[EN: Text] Game Boy CPU (SM83) Instruction Set (gbdev.io)](https://gbdev.io/gb-opcodes/optables/)
 - [[EN: Text] Game Boy Emulation (codeslinger)](http://www.codeslinger.co.uk/pages/projects/gameboy.html)
