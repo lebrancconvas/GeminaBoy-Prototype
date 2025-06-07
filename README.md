@@ -13,6 +13,15 @@ Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript +
 - [Web (web)](https://github.com/lebrancconvas/lebranc-gb/tree/master/web): Web Application side of the project.
 - [Emulator (emulator)](https://github.com/lebrancconvas/lebranc-gb/tree/master/emulator): Core (GameBoy) Emulator that will be used to run behind the application.
 
+## Testing
+
+### Free Licensed Test ROMs
+
+- [[EN: Github] c-sp/game-boy-test-rom: A collection of different test suites for your Game Boy emulator](https://github.com/c-sp/game-boy-test-roms)
+- [[EN: Game Collection] HomeBrew Hub's Game Collection (hh.gbdev.io)](https://hh.gbdev.io/search?typetag=game)
+  - [[EN: Game Collection] HomeBrew Hub's Game Boy Collection (hh.gbdev.io)](https://hh.gbdev.io/search?platform=GB&typetag=game)
+  - [[EN: Game Collection] HomeBrew Hub's Game Boy Color Collection (hh.gbdev.io)](https://hh.gbdev.io/search?platform=GBC&typetag=game)
+
 ## References
 
 ### Resources
