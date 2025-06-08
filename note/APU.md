@@ -19,6 +19,8 @@
 
 ### Length Counter
 
+- Determine the duration of the sound.
+
 ## Architecture
 
 | Channel | Sweep | Frequency | Wave Form | Length Timer | Volume |
