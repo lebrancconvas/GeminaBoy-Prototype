@@ -67,6 +67,7 @@ Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript +
 - **[JavaScript](https://en.wikipedia.org/wiki/JavaScript) / [TypeScript](https://en.wikipedia.org/wiki/TypeScript)-based projects.**
   - [[Github] roblouie/gameboy-emulator: Game Boy Emulator written by TypeScript.](https://github.com/roblouie/gameboy-emulator)
   - [[Github] jacoblister/emuboy: A Nintendo Game Boy Emulator in TypeScript.](https://github.com/jacoblister/emuboy)
+  - [[Github] vizigr0u/svelteboy: Assembly script gameboy emulator with a Svelte front-end.](https://github.com/vizigr0u/svelteboy)
 - Other Programming Language-based projects.
   - **[Rust](https://en.wikipedia.org/wiki/Rust_(programming_language))**
     - [[Github] smparsons/retroboy: A Game Boy emulator written in Rust.](https://github.com/smparsons/retroboy)
