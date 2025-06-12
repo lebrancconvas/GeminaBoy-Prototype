@@ -10,20 +10,37 @@ export class Cartridge {
     this.romData = new DataView(romBuffer);
   }
 
+  get romName(): string {
+    const romNameOffsetBeginPoint = 0x134;
+    const romNameOffsetEndPoint = 0x143;
+    let romName = "";
 
-  get cartridgeType(): CartridgeType {
+    for(let offset = romNameOffsetBeginPoint; offset < romNameOffsetEndPoint; offset++) {
+      const ascii = this.romData.getUint8(offset);
+      if(ascii === 0x00) romName += " ";
+      else {
+        const char = String.fromCharCode(ascii);
+        romName += char;
+      }
+    }
+
+    return romName.trim();
+  };
+
+
+  get cartridgeType(): string {
     const cartridgeTypeOffset = 0x147;
     const cartridgeTypeValue = this.romData.getUint8(cartridgeTypeOffset) as CartridgeType;
 
-    return cartridgeTypeValue;
-  }
+    return cartridgeTypeValue.toString(16).padStart(4, '0x');
+  };
 
   get romSize(): number {
 
     const romSizeOffset = 0x148;
     const romSizeValue = this.romData.getUint8(romSizeOffset);
     return 32 * (1 << romSizeValue);
-  }
+  };
 
   get ramSize(): number {
     const ramSizeOffset = 0x149;
@@ -43,5 +60,5 @@ export class Cartridge {
       default:
         return KB(0);
     }
-  }
+  };
 };
