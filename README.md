@@ -30,6 +30,7 @@ Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript +
 - [[EN: Text] gbdev's Resources (gbdev.io)](https://gbdev.io/resources.html)
 - [[EN: Text] Awesome Game Boy Development (Github)](https://github.com/gbdev/awesome-gbdev)
 - [[EN: Text] Game Boy Development Wiki (gbdev.gg8.se)](https://gbdev.gg8.se/wiki)
+- [[EN: Text] Game Boy Assembly (gbdev.io)](https://gbdev.io/gb-asm-tutorial)
 
 ### Technical References
 
