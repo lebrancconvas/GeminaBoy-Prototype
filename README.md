@@ -40,6 +40,7 @@ Web-Based Nintendo's GameBoy (GB / GBC) Emulator powered by React + TypeScript +
 - [[EN: Text] Game Boy CPU Manual (Pan of Anthrox)](http://www.codeslinger.co.uk/pages/projects/gameboy/files/GB.pdf)
 - [[EN: Text] Game Boy CPU (SM83) Instruction Set (gbdev.io)](https://gbdev.io/gb-opcodes/optables/)
 - [[EN: Text] Game Boy Emulation (codeslinger)](http://www.codeslinger.co.uk/pages/projects/gameboy.html)
+- [[EN: Text] DMG-01: How to emulate a Game Boy (rylev.github.io)](https://rylev.github.io/DMG-01/public/book)
 
 ### Blog
 
