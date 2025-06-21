@@ -1,4 +1,4 @@
-import { Memory } from "./utils";
+import { ROM } from "./utils";
 import { Cartridge } from "./utils/cartridge";
 
 class GameBoyEmulator {
@@ -9,8 +9,8 @@ class GameBoyEmulator {
 
     // Working.
     const cartridge = new Cartridge(romBuffer);
-    const memory = new Memory();
-    memory.insert(cartridge);
+    const rom = new ROM();
+    rom.insert(cartridge);
   }
 };
 
