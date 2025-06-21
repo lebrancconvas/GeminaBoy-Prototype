@@ -30,7 +30,7 @@ export function App() {
   return (
     <>
       <header>
-        <h1>Lebranc-GB</h1>
+        <h1>Gemina Boy</h1>
       </header>
       <section className="display">
         <canvas>Display Canvas</canvas>
