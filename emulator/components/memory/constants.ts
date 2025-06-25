@@ -46,3 +46,18 @@ export const MEMORY_REGION = {
     end: 0xFFFF as u16
   }
 };
+
+export enum REGION {
+  CARTRIDGE_FIXED = "Cartridge Fixed",
+  CARTRIDGE_BANK = "Cartridge Bank",
+  VRAM = "Video RAM (VRAM)",
+  SRAM = "Save RAM (SRAM) / External RAM (XRAM)",
+  WRAM = "Work RAM (WRAM)",
+  WRAM_CGB = "Work RAM (WRAM) for CGB Mode",
+  ERAM = "Echo RAM (ERAM)",
+  OAM = "Object Attribute Memory (OAM)",
+  IO = "Input / Output (I/O)",
+  HRAM = "High RAM (HRAM)",
+  IE = "Interupt Enable (IE)",
+  UNDEFINED = "Undefined"
+};
