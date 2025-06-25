@@ -1,1 +1,1 @@
-export * from "../cartridge/rom";
+export * from "./mmu";
