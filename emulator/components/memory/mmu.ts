@@ -1,11 +1,11 @@
-import { MEMORY_REGION } from "./constants";
+import { MEMORY_MAP_SIZE, MEMORY_REGION } from "./constants";
 import type { u8, u16 } from "~/@types/number";
 import { REGION, type IRegion } from "~/@types/mmu";
 
 export class MMU {
   memoryMap: Uint8Array;
   constructor() {
-    this.memoryMap = new Uint8Array();
+    this.memoryMap = new Uint8Array(MEMORY_MAP_SIZE);
   }
 
   write(address: u16, value: u8) {

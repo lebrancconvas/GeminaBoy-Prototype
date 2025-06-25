@@ -1,9 +1,12 @@
 import type { u16 } from "~/@types/number";
 import { REGION, type IRegion } from "~/@types/mmu";
+import { KB } from "~/helpers/byte";
+
+export const MEMORY_MAP_SIZE = KB(64); // 64 KB
 
 export const MEMORY_REGION: IRegion[] = [
   {
-    region: REGION.FIXED_CARTRDIGE,
+    region: REGION.FIXED_CARTRIDGE,
     start: 0x0000 as u16,
     end: 0x3FFF as u16
   },
