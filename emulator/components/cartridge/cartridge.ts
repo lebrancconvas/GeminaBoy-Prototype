@@ -61,4 +61,14 @@ export class Cartridge {
         return KB(0);
     }
   };
+
+  insert() {
+    alert(`
+      Insert Cartridge Success!\n
+      ROM Name: ${this.romName}\n
+      Cartridge Type: ${this.cartridgeType}\n
+      ROM Size: ${this.romSize} Byte(s)\n
+      RAM Size: ${this.ramSize} Byte(s)
+    `);
+  }
 };
