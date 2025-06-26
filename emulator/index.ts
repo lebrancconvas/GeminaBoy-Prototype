@@ -1,13 +1,15 @@
+import { MMU } from "./components";
 import { Cartridge } from "./components/cartridge";
 
 class GameBoyEmulator {
   static run(romBuffer: ArrayBuffer) {
     // Log ROM Data.
     const romData = new DataView(romBuffer);
-    console.log(romData);
+    console.log(`index.ts ~ [LOG] ROM Data: ${romData}`);
 
     // Working.
-    const cartridge = new Cartridge(romBuffer);
+    const mmu = new MMU();
+    const cartridge = new Cartridge(romBuffer, mmu);
     cartridge.insert();
   }
 };

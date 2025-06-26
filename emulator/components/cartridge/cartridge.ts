@@ -1,13 +1,17 @@
+import { MMU } from "~/components/memory";
 import { CartridgeType } from "./cartridge.enum";
 import { KB } from "~/helpers/byte";
+import { U8, U16 } from "~/helpers/number";
 
 export class Cartridge {
   romBuffer: ArrayBuffer;
   romData: DataView;
+  mmu: MMU;
 
-  constructor(romBuffer: ArrayBuffer) {
+  constructor(romBuffer: ArrayBuffer, mmu: MMU) {
     this.romBuffer = romBuffer;
     this.romData = new DataView(romBuffer);
+    this.mmu = mmu;
   }
 
   get romName(): string {
@@ -63,6 +67,11 @@ export class Cartridge {
   };
 
   insert() {
+    this.mmu.loadROM(this.romData);
+    this.mmu.getMemoryMap(); // Just Debugging.
+  }
+
+  log() {
     alert(`
       Insert Cartridge Success!\n
       ROM Name: ${this.romName}\n
