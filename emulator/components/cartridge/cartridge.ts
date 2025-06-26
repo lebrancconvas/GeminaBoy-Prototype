@@ -67,8 +67,9 @@ export class Cartridge {
       Insert Cartridge Success!\n
       ROM Name: ${this.romName}\n
       Cartridge Type: ${this.cartridgeType}\n
-      ROM Size: ${this.romSize} Byte(s)\n
-      RAM Size: ${this.ramSize} Byte(s)
+      ROM Size: ${this.romSize * (2**10)} Byte(s) or ${this.romSize} KB(s)\n
+      RAM Size: ${this.ramSize} Byte(s) or ${this.ramSize / (2**10)} KB(s)
     `);
   }
 };
+
