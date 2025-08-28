@@ -1,61 +1,418 @@
+/* Reset and base styles */
 * {
-  padding: 0;
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  font-family: 'Quicksand', sans-serif;
 }
 
-header {
+body {
+  font-family: 'Courier New', monospace;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #ffffff;
+  min-height: 100vh;
+  overflow-x: auto;
+}
+
+/* App container */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.header {
   text-align: center;
-  margin: 10px 0;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  border: 2px solid #4a90e2;
+  box-shadow: 0 8px 32px rgba(74, 144, 226, 0.3);
 }
 
-.display {
-  border: 3px solid black;
-  border-radius: 8px;
-  background-color: black;
-  width: 30%;
-  height: 65vh;
-  margin: 30px auto;
-  box-shadow: -1px 4px 9px 3px rgba(0, 0, 0, 0.25);
+.header h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, #4a90e2, #7b68ee, #ff6b6b);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient 3s ease infinite;
+  margin-bottom: 10px;
 }
 
-.upload {
+.subtitle {
+  font-size: 1.2rem;
+  color: #b8c5d6;
+  font-style: italic;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Main content */
+.main {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 30px;
+  flex: 1;
+}
+
+/* Display section */
+.display-section {
   display: flex;
   justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-button {
-  border: none;
+.canvas-container {
+  position: relative;
+  background: #2c2c2c;
+  border-radius: 20px;
+  padding: 20px;
+  border: 3px solid #4a90e2;
+  box-shadow: 
+    0 0 0 5px #1a1a1a,
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(74, 144, 226, 0.1);
+}
+
+.gameboy-canvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
   border-radius: 10px;
-  font-size: 16px;
-  text-align: center;
-  background-color: #13EC21;
-  cursor: pointer;
-  padding: 20px 10px;
-  margin: 0 auto;
-  box-shadow: -1px 5px 9px 3px rgba(0, 0, 0, 0.25);
+  background: #000;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
 }
 
-input {
-  display: none;
-}
-
-button:hover {
-  background-color: #42F05D;
-  transition: background-color 0.3s ease;
-}
-
-button:active {
-  transform: scale(0.98);
-}
-
-footer {
-  position: fixed;
+.canvas-overlay {
+  position: absolute;
+  top: 0;
   left: 0;
+  right: 0;
   bottom: 0;
-  width: 100%;
-  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.placeholder {
   text-align: center;
-  font-size: 18px;
+  color: #888;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.placeholder p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+/* Controls section */
+.controls-section {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  border: 2px solid #4a90e2;
+  box-shadow: 0 8px 32px rgba(74, 144, 226, 0.2);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.controls-section h3 {
+  color: #4a90e2;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #4a90e2;
+  padding-bottom: 8px;
+}
+
+/* Buttons */
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #4a90e2, #7b68ee);
+  color: white;
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.6);
+}
+
+.btn-secondary {
+  background: linear-gradient(45deg, #6c757d, #495057);
+  color: white;
+  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.4);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 117, 125, 0.6);
+}
+
+.btn-danger {
+  background: linear-gradient(45deg, #dc3545, #c82333);
+  color: white;
+  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+}
+
+.btn-danger:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.6);
+}
+
+/* File controls */
+.file-controls {
+  text-align: center;
+}
+
+/* ROM info */
+.rom-info {
+  background: rgba(74, 144, 226, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid rgba(74, 144, 226, 0.3);
+}
+
+.info-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(74, 144, 226, 0.2);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: bold;
+  color: #b8c5d6;
+}
+
+.value {
+  color: #4a90e2;
+  font-family: 'Courier New', monospace;
+}
+
+/* Emulation controls */
+.control-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.control-buttons .btn {
+  font-size: 0.9rem;
+  padding: 10px 16px;
+}
+
+/* Speed control */
+.speed-control {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.speed-control label {
+  font-weight: bold;
+  color: #b8c5d6;
+}
+
+.speed-select {
+  flex: 1;
+  padding: 8px 12px;
+  border: 2px solid #4a90e2;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.speed-select:focus {
+  outline: none;
+  border-color: #7b68ee;
+  box-shadow: 0 0 0 3px rgba(123, 104, 238, 0.3);
+}
+
+/* Input info */
+.input-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.input-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: rgba(74, 144, 226, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(74, 144, 226, 0.2);
+}
+
+.key {
+  font-weight: bold;
+  color: #ffd700;
+  font-family: 'Courier New', monospace;
+}
+
+.action {
+  color: #b8c5d6;
+  font-style: italic;
+}
+
+/* Footer */
+.footer {
+  margin-top: 30px;
+  text-align: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  border: 2px solid #4a90e2;
+}
+
+.status-bar {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: rgba(74, 144, 226, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(74, 144, 226, 0.3);
+}
+
+.status {
+  font-family: 'Courier New', monospace;
+  color: #4a90e2;
+  font-weight: bold;
+}
+
+.credits {
+  color: #b8c5d6;
+}
+
+.credits a {
+  color: #4a90e2;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.credits a:hover {
+  color: #7b68ee;
+  text-decoration: underline;
+}
+
+/* Scrollbar styling */
+.controls-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.controls-section::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.controls-section::-webkit-scrollbar-thumb {
+  background: #4a90e2;
+  border-radius: 4px;
+}
+
+.controls-section::-webkit-scrollbar-thumb:hover {
+  background: #7b68ee;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .main {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .controls-section {
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .app {
+    padding: 15px;
+  }
+  
+  .header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .control-buttons {
+    grid-template-columns: 1fr;
+  }
+  
+  .speed-control {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .input-item {
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .canvas-container {
+    padding: 15px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
 }
