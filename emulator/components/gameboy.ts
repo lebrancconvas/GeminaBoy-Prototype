@@ -1,13 +1,49 @@
+// DOM types for browser compatibility
+declare global {
+  interface Window {
+    requestAnimationFrame(callback: FrameRequestCallback): number;
+    cancelAnimationFrame(handle: number): void;
+    performance: Performance;
+  }
+  
+  interface Performance {
+    now(): number;
+  }
+  
+  type FrameRequestCallback = (time: number) => void;
+}
+
+interface HTMLCanvasElement {
+  width: number;
+  height: number;
+  getContext(contextId: '2d'): CanvasRenderingContext2D | null;
+}
+
+interface CanvasRenderingContext2D {
+  fillRect(x: number, y: number, width: number, height: number): void;
+  clearRect(x: number, y: number, width: number, height: number): void;
+  putImageData(imageData: ImageData, dx: number, dy: number): void;
+  createImageData(width: number, height: number): ImageData;
+}
+
+interface ImageData {
+  data: Uint8ClampedArray;
+  width: number;
+  height: number;
+}
+
 import { CPU } from './cpu';
 import { MMU } from './memory';
 import { PPU } from './picture';
 import { Input } from './input';
+import { APU } from './audio';
 
 export class GameBoy {
   private cpu: CPU;
   private mmu: MMU;
   private ppu: PPU;
   private input: Input;
+  private apu: APU;
   private canvas: HTMLCanvasElement;
   private running: boolean = false;
   private animationId: number | null = null;
@@ -21,6 +57,19 @@ export class GameBoy {
     this.cpu = new CPU(this.mmu);
     this.ppu = new PPU(this.mmu, canvas);
     this.input = new Input(this.mmu);
+    this.apu = new APU();
+  }
+
+  // Initialize the emulator
+  async initialize(): Promise<void> {
+    try {
+      console.log('🎵 Initializing audio system...');
+      await this.apu.initialize();
+      console.log('✅ GameBoy emulator initialized successfully!');
+    } catch (error) {
+      console.error('❌ Failed to initialize audio system:', error);
+      // Continue without audio if it fails
+    }
   }
 
   // Load and run a ROM
@@ -50,7 +99,7 @@ export class GameBoy {
     if (this.running) return;
     
     this.running = true;
-    this.lastTime = performance.now();
+    this.lastTime = (window as any).performance?.now() || Date.now();
     this.frameCount = 0;
     
     this.runFrame();
@@ -63,7 +112,7 @@ export class GameBoy {
     
     this.running = false;
     if (this.animationId) {
-      cancelAnimationFrame(this.animationId);
+      (window as any).cancelAnimationFrame(this.animationId);
       this.animationId = null;
     }
     
@@ -76,6 +125,7 @@ export class GameBoy {
     this.mmu.reset();
     this.ppu.reset();
     this.input.reset();
+    this.apu.reset();
     
     console.log('Emulator reset');
   }
@@ -84,7 +134,7 @@ export class GameBoy {
   private runFrame(): void {
     if (!this.running) return;
 
-    const currentTime = performance.now();
+    const currentTime = (window as any).performance?.now() || Date.now();
     const deltaTime = currentTime - this.lastTime;
     const targetFrameTime = 1000 / this.fps;
 
@@ -94,7 +144,7 @@ export class GameBoy {
       this.frameCount++;
     }
 
-    this.animationId = requestAnimationFrame(() => this.runFrame());
+    this.animationId = (window as any).requestAnimationFrame(() => this.runFrame());
   }
 
   // Emulate one frame (60 FPS)
@@ -109,6 +159,9 @@ export class GameBoy {
       
       // Update PPU
       this.ppu.update(cycles);
+      
+      // Update APU
+      this.apu.update(cycles);
       
       // Check for interrupts and handle them
       this.handleInterrupts();
@@ -136,7 +189,8 @@ export class GameBoy {
       fps: this.fps,
       cpuState: this.cpu.getState(),
       romInfo: this.mmu.getROMInfo(),
-      inputState: this.input.getInputState()
+      inputState: this.input.getInputState(),
+      audioEnabled: this.apu.getAudioContext() !== null
     };
   }
 
@@ -179,6 +233,11 @@ export class GameBoy {
   // Get input for debugging
   getInput(): Input {
     return this.input;
+  }
+
+  // Get APU for debugging
+  getAPU(): APU {
+    return this.apu;
   }
 
   // Save state (placeholder for future implementation)

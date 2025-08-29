@@ -15,30 +15,48 @@ export function App() {
   const [romInfo, setRomInfo] = useState<any>(null);
   const [status, setStatus] = useState<string>('Ready to load ROM');
   const [error, setError] = useState<string | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     if (canvasRef.current && !gameBoy) {
       try {
         console.log('Creating GameBoy instance...');
         const newGameBoy = new GameBoy(canvasRef.current);
-        console.log('GameBoy instance created successfully:', newGameBoy);
         setGameBoy(newGameBoy);
-        setStatus('GameBoy emulator initialized');
+        setStatus('GameBoy emulator created, initializing...');
       } catch (err) {
         console.error('Failed to create GameBoy instance:', err);
-        setError(`Failed to initialize emulator: ${err}`);
-        setStatus('Failed to initialize emulator');
+        setError(`Failed to create emulator: ${err}`);
+        setStatus('Failed to create emulator');
       }
     }
   }, [gameBoy]);
 
   useEffect(() => {
-    if (gameBoy) {
+    if (gameBoy && !isInitialized) {
+      const initializeEmulator = async () => {
+        try {
+          await gameBoy.initialize();
+          setIsInitialized(true);
+          setStatus('GameBoy emulator initialized successfully!');
+        } catch (err) {
+          console.error('Failed to initialize GameBoy emulator:', err);
+          setError(`Failed to initialize emulator: ${err}`);
+          setStatus('Failed to initialize emulator');
+        }
+      };
+      
+      initializeEmulator();
+    }
+  }, [gameBoy, isInitialized]);
+
+  useEffect(() => {
+    if (gameBoy && isInitialized) {
       const interval = setInterval(() => {
         if (isRunning) {
           try {
             const status = gameBoy.getStatus();
-            setStatus(`Running - Frame: ${status.frameCount} | FPS: ${status.fps}`);
+            setStatus(`Running - Frame: ${status.frameCount} | FPS: ${status.fps} | Audio: ${status.audioEnabled ? '✅' : '❌'}`);
           } catch (err) {
             console.error('Error getting status:', err);
           }
@@ -47,7 +65,7 @@ export function App() {
 
       return () => clearInterval(interval);
     }
-  }, [gameBoy, isRunning]);
+  }, [gameBoy, isInitialized, isRunning]);
 
   function handleROMFileUpload() {
     fileInputRef.current?.click();
@@ -55,7 +73,7 @@ export function App() {
 
   async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const files = event.target.files;
-    if (files && files[0] && gameBoy) {
+    if (files && files[0] && gameBoy && isInitialized) {
       const file = files[0];
 
       try {
@@ -80,12 +98,19 @@ export function App() {
         setError(`Failed to load ROM: ${error}`);
         setStatus('Error loading ROM');
       }
+    } else if (!isInitialized) {
+      setError('Please wait for the emulator to initialize');
     }
   }
 
   async function handleTestROM() {
     if (!gameBoy) {
-      setError('GameBoy emulator not initialized');
+      setError('GameBoy emulator not created');
+      return;
+    }
+
+    if (!isInitialized) {
+      setError('Please wait for the emulator to initialize');
       return;
     }
 
@@ -204,14 +229,14 @@ export function App() {
             <button 
               onClick={handleTestROM}
               className="btn btn-primary"
-              disabled={isRunning}
+              disabled={!isInitialized || isRunning}
             >
               Load Test ROM
             </button>
             <button 
               onClick={handleROMFileUpload}
               className="btn btn-secondary"
-              disabled={isRunning}
+              disabled={!isInitialized || isRunning}
             >
               Open ROM File
             </button>
@@ -319,6 +344,7 @@ export function App() {
             <h3>Debug Information</h3>
             <div className="debug-content">
               <p><strong>GameBoy Instance:</strong> {gameBoy ? '✅ Created' : '❌ Not Created'}</p>
+              <p><strong>Initialized:</strong> {isInitialized ? '✅ Yes' : '⏳ No'}</p>
               <p><strong>Canvas:</strong> {canvasRef.current ? '✅ Ready' : '❌ Not Ready'}</p>
               <p><strong>Status:</strong> {status}</p>
               {gameBoy && (
