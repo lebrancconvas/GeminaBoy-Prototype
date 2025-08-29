@@ -13,6 +13,7 @@ export class PPU {
   private scanline: number = 0;
   private mode: number = 0;
   private modeClock: number = 0;
+  private romLoaded: boolean = false;
 
   // LCD modes
   private static readonly MODE_HBLANK = 0;
@@ -40,8 +41,15 @@ export class PPU {
     this.canvas.height = 144;
   }
 
+  // Set ROM loaded status
+  setROMLoaded(loaded: boolean): void {
+    this.romLoaded = loaded;
+  }
+
   // Update PPU for a given number of CPU cycles
   update(cycles: number): void {
+    if (!this.romLoaded) return; // Don't update if no ROM is loaded
+    
     this.modeClock += cycles;
 
     switch (this.mode) {
@@ -90,7 +98,7 @@ export class PPU {
 
   // Render a single scanline
   private renderScanline(): void {
-    if (!this.lcd.isEnabled()) return;
+    if (!this.lcd.isEnabled() || !this.romLoaded) return;
 
     const y = this.scanline;
     const bgEnabled = this.lcd.isBackgroundEnabled();
@@ -115,91 +123,133 @@ export class PPU {
 
   // Render background for a scanline
   private renderBackgroundScanline(y: number): void {
-    const scrollX = this.lcd.getScrollX();
-    const scrollY = this.lcd.getScrollY();
-    const tileMap = this.lcd.getBackgroundTileMap();
-    const tileData = this.lcd.getTileData();
+    try {
+      const scrollX = this.lcd.getScrollX();
+      const scrollY = this.lcd.getScrollY();
+      const tileMap = this.lcd.getBackgroundTileMap();
+      const tileData = this.lcd.getTileData();
 
-    for (let x = 0; x < 160; x++) {
-      const tileX = (x + scrollX) / 8;
-      const tileY = (y + scrollY) / 8;
-      const tileIndex = this.mmu.readByte(tileMap + tileY * 32 + tileX);
-      
-      const pixelX = (x + scrollX) % 8;
-      const pixelY = (y + scrollY) % 8;
-      const color = this.tiles.getPixel(tileIndex, pixelX, pixelY, tileData);
-      
-      this.setPixel(x, y, color);
+      for (let x = 0; x < 160; x++) {
+        const tileX = Math.floor((x + scrollX) / 8);
+        const tileY = Math.floor((y + scrollY) / 8);
+        
+        // Safety check for valid tile coordinates
+        if (tileX < 0 || tileX >= 32 || tileY < 0 || tileY >= 32) {
+          this.setPixel(x, y, 0); // Set to transparent
+          continue;
+        }
+        
+        const tileIndex = this.mmu.readByte(tileMap + tileY * 32 + tileX);
+        
+        const pixelX = (x + scrollX) % 8;
+        const pixelY = (y + scrollY) % 8;
+        const color = this.tiles.getPixel(tileIndex, pixelX, pixelY, tileData);
+        
+        this.setPixel(x, y, color);
+      }
+    } catch (error) {
+      console.warn('Error rendering background scanline:', error);
+      // Fill scanline with transparent pixels on error
+      for (let x = 0; x < 160; x++) {
+        this.setPixel(x, y, 0);
+      }
     }
   }
 
   // Render window for a scanline
   private renderWindowScanline(y: number): void {
-    const windowX = this.lcd.getWindowX() - 7;
-    const windowY = this.lcd.getWindowY();
-    
-    if (y < windowY || windowX >= 160) return;
-
-    const tileMap = this.lcd.getWindowTileMap();
-    const tileData = this.lcd.getTileData();
-
-    for (let x = Math.max(0, windowX); x < 160; x++) {
-      const tileX = (x - windowX) / 8;
-      const tileY = (y - windowY) / 8;
-      const tileIndex = this.mmu.readByte(tileMap + tileY * 32 + tileX);
+    try {
+      const windowX = this.lcd.getWindowX() - 7;
+      const windowY = this.lcd.getWindowY();
       
-      const pixelX = (x - windowX) % 8;
-      const pixelY = (y - windowY) % 8;
-      const color = this.tiles.getPixel(tileIndex, pixelX, pixelY, tileData);
-      
-      this.setPixel(x, y, color);
+      if (y < windowY || windowX >= 160) return;
+
+      const tileMap = this.lcd.getWindowTileMap();
+      const tileData = this.lcd.getTileData();
+
+      for (let x = Math.max(0, windowX); x < 160; x++) {
+        const tileX = Math.floor((x - windowX) / 8);
+        const tileY = Math.floor((y - windowY) / 8);
+        
+        // Safety check for valid tile coordinates
+        if (tileX < 0 || tileX >= 32 || tileY < 0 || tileY >= 32) {
+          this.setPixel(x, y, 0);
+          continue;
+        }
+        
+        const tileIndex = this.mmu.readByte(tileMap + tileY * 32 + tileX);
+        
+        const pixelX = (x - windowX) % 8;
+        const pixelY = (y - windowY) % 8;
+        const color = this.tiles.getPixel(tileIndex, pixelX, pixelY, tileData);
+        
+        this.setPixel(x, y, color);
+      }
+    } catch (error) {
+      console.warn('Error rendering window scanline:', error);
     }
   }
 
   // Render sprites for a scanline
   private renderSpriteScanline(y: number): void {
-    const sprites = this.sprites.getSpritesOnScanline(y);
-    
-    for (const sprite of sprites) {
-      this.renderSprite(sprite, y);
+    try {
+      const sprites = this.sprites.getSpritesOnScanline(y);
+      
+      for (const sprite of sprites) {
+        this.renderSprite(sprite, y);
+      }
+    } catch (error) {
+      console.warn('Error rendering sprite scanline:', error);
     }
   }
 
   // Render a single sprite
   private renderSprite(sprite: any, y: number): void {
-    const spriteY = y - sprite.y;
-    if (spriteY < 0 || spriteY >= 8) return;
+    try {
+      const spriteY = y - sprite.y;
+      if (spriteY < 0 || spriteY >= 8) return;
 
-    const tileData = this.lcd.getTileData();
-    const tileIndex = sprite.tileIndex;
-    
-    for (let x = 0; x < 8; x++) {
-      const spriteX = sprite.x + x;
-      if (spriteX < 0 || spriteX >= 160) continue;
+      const tileData = this.lcd.getTileData();
+      const tileIndex = sprite.tileIndex;
+      
+      for (let x = 0; x < 8; x++) {
+        const spriteX = sprite.x + x;
+        if (spriteX < 0 || spriteX >= 160) continue;
 
-      const color = this.tiles.getPixel(tileIndex, x, spriteY, tileData);
-      if (color !== 0) { // Transparent
-        this.setPixel(spriteX, y, color);
+        const color = this.tiles.getPixel(tileIndex, x, spriteY, tileData);
+        if (color !== 0) { // Transparent
+          this.setPixel(spriteX, y, color);
+        }
       }
+    } catch (error) {
+      console.warn('Error rendering sprite:', error);
     }
   }
 
   // Set pixel in frame buffer
   private setPixel(x: number, y: number, color: number): void {
-    const index = (y * 160 + x) * 4;
-    const rgb = this.lcd.getColor(color);
-    
-    this.frameBuffer[index] = rgb.r;     // Red
-    this.frameBuffer[index + 1] = rgb.g; // Green
-    this.frameBuffer[index + 2] = rgb.b; // Blue
-    this.frameBuffer[index + 3] = 255;   // Alpha
+    try {
+      const index = (y * 160 + x) * 4;
+      const rgb = this.lcd.getColor(color);
+      
+      this.frameBuffer[index] = rgb.r;     // Red
+      this.frameBuffer[index + 1] = rgb.g; // Green
+      this.frameBuffer[index + 2] = rgb.b; // Blue
+      this.frameBuffer[index + 3] = 255;   // Alpha
+    } catch (error) {
+      console.warn('Error setting pixel:', error);
+    }
   }
 
   // Render the complete frame to canvas
   private renderFrame(): void {
-    const imageData = this.ctx.createImageData(160, 144);
-    imageData.data.set(this.frameBuffer);
-    this.ctx.putImageData(imageData, 0, 0);
+    try {
+      const imageData = this.ctx.createImageData(160, 144);
+      imageData.data.set(this.frameBuffer);
+      this.ctx.putImageData(imageData, 0, 0);
+    } catch (error) {
+      console.warn('Error rendering frame:', error);
+    }
   }
 
   // Reset PPU
@@ -208,6 +258,7 @@ export class PPU {
     this.mode = PPU.MODE_OAM;
     this.modeClock = 0;
     this.frameBuffer.fill(0);
+    this.romLoaded = false;
   }
 
   // Get current scanline

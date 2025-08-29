@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { ALLOW_FILE_EXTENSIONS } from './constants';
+import { createTestROM } from './create-test-rom';
 import './index.css';
 
 import GameBoy from '@lebranc-gb/emulator';
@@ -13,11 +14,21 @@ export function App() {
   const [isRunning, setIsRunning] = useState(false);
   const [romInfo, setRomInfo] = useState<any>(null);
   const [status, setStatus] = useState<string>('Ready to load ROM');
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (canvasRef.current && !gameBoy) {
-      const newGameBoy = new GameBoy(canvasRef.current);
-      setGameBoy(newGameBoy);
+      try {
+        console.log('Creating GameBoy instance...');
+        const newGameBoy = new GameBoy(canvasRef.current);
+        console.log('GameBoy instance created successfully:', newGameBoy);
+        setGameBoy(newGameBoy);
+        setStatus('GameBoy emulator initialized');
+      } catch (err) {
+        console.error('Failed to create GameBoy instance:', err);
+        setError(`Failed to initialize emulator: ${err}`);
+        setStatus('Failed to initialize emulator');
+      }
     }
   }, [gameBoy]);
 
@@ -25,8 +36,12 @@ export function App() {
     if (gameBoy) {
       const interval = setInterval(() => {
         if (isRunning) {
-          const status = gameBoy.getStatus();
-          setStatus(`Running - Frame: ${status.frameCount} | FPS: ${status.fps}`);
+          try {
+            const status = gameBoy.getStatus();
+            setStatus(`Running - Frame: ${status.frameCount} | FPS: ${status.fps}`);
+          } catch (err) {
+            console.error('Error getting status:', err);
+          }
         }
       }, 1000);
 
@@ -44,51 +59,109 @@ export function App() {
       const file = files[0];
 
       try {
+        setError(null);
         setStatus('Loading ROM...');
+        console.log('Loading ROM file:', file.name, 'Size:', file.size);
+        
         const fileBuffer = await file.arrayBuffer();
+        console.log('File loaded, buffer size:', fileBuffer.byteLength);
         
         await gameBoy.loadROM(fileBuffer);
         setIsRunning(true);
-        setRomInfo(gameBoy.getStatus().romInfo);
+        
+        const status = gameBoy.getStatus();
+        setRomInfo(status.romInfo);
         setStatus('ROM loaded successfully!');
         
-        console.log('ROM loaded:', file.name);
+        console.log('ROM loaded successfully:', file.name);
+        console.log('ROM info:', status.romInfo);
       } catch (error) {
         console.error('Error loading ROM: ', error);
+        setError(`Failed to load ROM: ${error}`);
         setStatus('Error loading ROM');
       }
     }
   }
 
+  async function handleTestROM() {
+    if (!gameBoy) {
+      setError('GameBoy emulator not initialized');
+      return;
+    }
+
+    try {
+      setError(null);
+      setStatus('Creating test ROM...');
+      
+      const testROM = createTestROM();
+      console.log('Test ROM created, size:', testROM.byteLength);
+      
+      await gameBoy.loadROM(testROM);
+      setIsRunning(true);
+      
+      const status = gameBoy.getStatus();
+      setRomInfo(status.romInfo);
+      setStatus('Test ROM loaded successfully!');
+      
+      console.log('Test ROM loaded successfully!');
+      console.log('ROM info:', status.romInfo);
+    } catch (error) {
+      console.error('Error loading test ROM: ', error);
+      setError(`Failed to load test ROM: ${error}`);
+      setStatus('Error loading test ROM');
+    }
+  }
+
   function handlePause() {
     if (gameBoy && isRunning) {
-      gameBoy.pause();
-      setIsRunning(false);
-      setStatus('Paused');
+      try {
+        gameBoy.pause();
+        setIsRunning(false);
+        setStatus('Paused');
+      } catch (err) {
+        console.error('Error pausing:', err);
+        setError(`Failed to pause: ${err}`);
+      }
     }
   }
 
   function handleResume() {
     if (gameBoy && !isRunning) {
-      gameBoy.resume();
-      setIsRunning(true);
-      setStatus('Resumed');
+      try {
+        gameBoy.resume();
+        setIsRunning(true);
+        setStatus('Resumed');
+      } catch (err) {
+        console.error('Error resuming:', err);
+        setError(`Failed to resume: ${err}`);
+      }
     }
   }
 
   function handleReset() {
     if (gameBoy) {
-      gameBoy.reset();
-      setIsRunning(false);
-      setRomInfo(null);
-      setStatus('Emulator reset');
+      try {
+        gameBoy.reset();
+        setIsRunning(false);
+        setRomInfo(null);
+        setStatus('Emulator reset');
+        setError(null);
+      } catch (err) {
+        console.error('Error resetting:', err);
+        setError(`Failed to reset: ${err}`);
+      }
     }
   }
 
   function handleSpeedChange(event: React.ChangeEvent<HTMLSelectElement>) {
     if (gameBoy) {
-      const speed = parseInt(event.target.value);
-      gameBoy.setSpeed(speed);
+      try {
+        const speed = parseInt(event.target.value);
+        gameBoy.setSpeed(speed);
+      } catch (err) {
+        console.error('Error changing speed:', err);
+        setError(`Failed to change speed: ${err}`);
+      }
     }
   }
 
@@ -98,6 +171,13 @@ export function App() {
         <h1>Gemina Boy</h1>
         <p className="subtitle">Game Boy Emulator</p>
       </header>
+
+      {error && (
+        <div className="error-banner">
+          <p>⚠️ {error}</p>
+          <button onClick={() => setError(null)} className="error-close">×</button>
+        </div>
+      )}
 
       <main className="main">
         <section className="display-section">
@@ -112,7 +192,7 @@ export function App() {
               {!romInfo && (
                 <div className="placeholder">
                   <p>No ROM loaded</p>
-                  <p>Click "Open ROM File" to start</p>
+                  <p>Click "Load Test ROM" or "Open ROM File" to start</p>
                 </div>
               )}
             </div>
@@ -122,8 +202,15 @@ export function App() {
         <section className="controls-section">
           <div className="file-controls">
             <button 
-              onClick={handleROMFileUpload}
+              onClick={handleTestROM}
               className="btn btn-primary"
+              disabled={isRunning}
+            >
+              Load Test ROM
+            </button>
+            <button 
+              onClick={handleROMFileUpload}
+              className="btn btn-secondary"
               disabled={isRunning}
             >
               Open ROM File
@@ -219,12 +306,30 @@ export function App() {
               </div>
               <div className="input-item">
                 <span className="key">Enter</span>
-                <span className="action">Start</span>
+                <span className="action">Start Button</span>
               </div>
               <div className="input-item">
                 <span className="key">Shift</span>
-                <span className="action">Select</span>
+                <span className="action">Select Button</span>
               </div>
+            </div>
+          </div>
+
+          <div className="debug-info">
+            <h3>Debug Information</h3>
+            <div className="debug-content">
+              <p><strong>GameBoy Instance:</strong> {gameBoy ? '✅ Created' : '❌ Not Created'}</p>
+              <p><strong>Canvas:</strong> {canvasRef.current ? '✅ Ready' : '❌ Not Ready'}</p>
+              <p><strong>Status:</strong> {status}</p>
+              {gameBoy && (
+                <button 
+                  onClick={() => console.log('GameBoy Debug:', gameBoy)}
+                  className="btn btn-secondary"
+                  style={{ fontSize: '0.8rem', padding: '8px 16px' }}
+                >
+                  Log Debug Info
+                </button>
+              )}
             </div>
           </div>
         </section>

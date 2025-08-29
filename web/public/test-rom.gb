@@ -1,3 +1,6 @@
-// This is a placeholder for a test ROM file
-// In a real scenario, you would need an actual .gb ROM file
-// For testing purposes, you can use any legitimate Game Boy ROM
+// This is a minimal test ROM file for development purposes
+// It contains the basic Game Boy header structure
+// In production, you would use actual .gb ROM files
+
+// Note: This is not a real ROM, just for testing the emulator structure
+// Real ROMs are binary files, not text files

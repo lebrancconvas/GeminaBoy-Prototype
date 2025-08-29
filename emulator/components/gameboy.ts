@@ -29,6 +29,9 @@ export class GameBoy {
       // Load ROM into memory
       this.mmu.loadROM(romBuffer);
       
+      // Set PPU ROM loaded status
+      this.ppu.setROMLoaded(true);
+      
       // Reset all components
       this.reset();
       

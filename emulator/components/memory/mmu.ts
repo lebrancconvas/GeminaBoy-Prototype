@@ -9,6 +9,25 @@ export class MMU {
   constructor() {
     this.ram = new RAM();
     this.hardwareRegisters = new Uint8Array(256);
+    this.initializeHardwareRegisters();
+  }
+
+  private initializeHardwareRegisters(): void {
+    // Initialize hardware registers with default values
+    this.hardwareRegisters.fill(0);
+    
+    // Set some default values for LCD and other hardware
+    this.hardwareRegisters[0x40] = 0x91; // LCD Control
+    this.hardwareRegisters[0x41] = 0x00; // LCD Status
+    this.hardwareRegisters[0x42] = 0x00; // Scroll Y
+    this.hardwareRegisters[0x43] = 0x00; // Scroll X
+    this.hardwareRegisters[0x44] = 0x00; // LY
+    this.hardwareRegisters[0x45] = 0x00; // LYC
+    this.hardwareRegisters[0x47] = 0xFC; // BGP
+    this.hardwareRegisters[0x48] = 0xFF; // OBP0
+    this.hardwareRegisters[0x49] = 0xFF; // OBP1
+    this.hardwareRegisters[0x4A] = 0x00; // WY
+    this.hardwareRegisters[0x4B] = 0x00; // WX
   }
 
   // Load ROM into memory
@@ -150,7 +169,7 @@ export class MMU {
   // Reset memory
   reset(): void {
     this.ram.clear();
-    this.hardwareRegisters.fill(0);
+    this.initializeHardwareRegisters();
     this.rom = null;
   }
 }
